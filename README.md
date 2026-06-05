@@ -1,4 +1,4 @@
-## Hi there 👋
+Handled data entry, typing, badge and poster design, online government and private portal services, document processing, customer service, and sales activities while ensuring accuracy and customer satisfaction.👋
 
 <!--
 **nameslip/ATAVA** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
