@@ -37,11 +37,10 @@
             width: 100px; 
             height: 100px;
             border-radius: 50%;
-            object-fit: contain; 
+            object-fit: cover; 
             border: 3px solid #d4af37;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             background-color: #1a1a1a;
-            padding: 2px;
         }
 
         h1 { color: #333; font-size: 24px; margin-bottom: 5px; margin-top: 10px; }
@@ -117,7 +116,7 @@
             width: 42px;  
             height: 42px;
             border-radius: 50%;
-            object-fit: contain;
+            object-fit: cover;
             background: #1a1a1a;
             border: 1.5px solid #d4af37;
         }
@@ -194,17 +193,19 @@
 
     <div class="main-container">
         <div class="company-logo-container">
-            <img class="company-logo" id="mainLogo" src="https://i.ibb.co/Vp8L3n9C/LOGO-2.jpg" alt="ATAVA Logo">
+            <img class="company-logo" id="mainLogo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100%' height='100%' fill='%231a1a1a'/><text x='50%' y='55%' font-family='Arial' font-size='12' fill='%23d4af37' font-weight='bold' text-anchor='middle'>ATAVA LOGO</text></svg>" alt="ATAVA Logo">
         </div>
 
         <h1>📚 Book Cover Generator</h1>
         <p>വിവരങ്ങൾ നൽകി പ്രൊഫഷണൽ കവർ പേജ് ഉണ്ടാക്കൂ!</p>
         
         <div class="form-container">
-            <div class="input-group">
-                <label>Student Photo:</label>
-                <input type="file" id="inputPhoto" accept="image/*" onchange="loadPhoto(event)">
+            <div class="input-group" style="background: #fff9e6; padding: 10px; border-radius: 8px; border: 1px dashed #d4af37;">
+                <label style="color: #b38f00;">✨ Upload Company Logo (LOGO 2.jpg):</label>
+                <input type="file" id="inputLogo" accept="image/*" onchange="loadCompanyLogo(event)">
+                <span class="hint-text" style="color: #666;">നിങ്ങളുടെ ഒറിജിനൽ കറുപ്പും ഗോൾഡും ലോഗോ ഇവിടെ ഒരിക്കൽ അപ്‌ലോഡ് ചെയ്താൽ മതി.</span>
             </div>
+
             <div class="input-group">
                 <label>Custom Backgrounds (Select Multiple):</label>
                 <input type="file" id="inputBg" accept="image/*" multiple onchange="loadMultipleBackgrounds(event)">
@@ -240,11 +241,34 @@
     </div>
 
     <script>
-        // കവർ പേജുകളിലേക്ക് ലോഗോ ലോഡ് ചെയ്യാനുള്ള ലിങ്ക്
-        const globalLogoUrl = "https://i.ibb.co/Vp8L3n9C/LOGO-2.jpg";
-
-        let studentPhotoData = "https://via.placeholder.com/150";
+        // ലോക്കൽ സ്റ്റോറേജിൽ ലോഗോ ഉണ്ടോ എന്ന് നോക്കുന്നു, ഇല്ലെങ്കിൽ ഡിഫോൾട്ട് കാട്ടും
+        let companyLogoData = localStorage.getItem('atava_stored_logo') || "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100%' height='100%' fill='%231a1a1a'/><text x='50%' y='55%' font-family='Arial' font-size='12' fill='%23d4af37' font-weight='bold' text-anchor='middle'>ATAVA LOGO</text></svg>";
+        
         let customBgList = ["https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1000&auto=format&fit=crop"];
+
+        // പേജ് ലോഡാകുമ്പോൾ ലോഗോ സെറ്റ് ചെയ്യുക
+        window.onload = function() {
+            if(localStorage.getItem('atava_stored_logo')) {
+                document.getElementById('mainLogo').src = companyLogoData;
+            }
+            updateCovers();
+        };
+
+        // ലോഗോ അപ്‌ലോഡ് ചെയ്യുമ്പോൾ അത് സിസ്റ്റത്തിൽ സ്ഥിരമായി സേവ് ചെയ്യാനുള്ള ഫങ്ക്ഷൻ
+        function loadCompanyLogo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    companyLogoData = e.target.result;
+                    document.getElementById('mainLogo').src = companyLogoData;
+                    // ബ്രൗസറിൽ ഇത് സ്ഥിരമായി സേവ് ചെയ്തു വെക്കും
+                    localStorage.setItem('atava_stored_logo', companyLogoData);
+                    updateCovers();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
 
         function updateCovers() {
             const name = document.getElementById('inputName').value || "";
@@ -284,7 +308,7 @@
                         <div class="cover-overlay">
                             <div class="top-section">
                                 <div class="logo-box">
-                                    <img src="${globalLogoUrl}" alt="Logo">
+                                    <img src="${companyLogoData}" alt="Logo">
                                 </div>
                                 <div class="student-info">
                                     <h2>${name}</h2>
@@ -308,17 +332,6 @@
             });
         }
 
-        function loadPhoto(event) {
-            var reader = new FileReader();
-            reader.onload = function() {
-                studentPhotoData = reader.result;
-                updateCovers();
-            }
-            if(event.target.files[0]) {
-                reader.readAsDataURL(event.target.files[0]);
-            }
-        }
-
         function loadMultipleBackgrounds(event) {
             const files = event.target.files;
             if (files.length === 0) return;
@@ -338,8 +351,6 @@
                 reader.readAsDataURL(files[i]);
             }
         }
-
-        window.onload = updateCovers;
     </script>
 </body>
 </html>
