@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Cover Generator</title>
+    <title>Digital Book Cover Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,15 +17,16 @@
 
         .main-container {
             background: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            max-width: 450px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
             margin-bottom: 25px;
         }
 
+        /* 🎯 നിങ്ങളുടെ ഒറിജിനൽ ATAVA ലോഗോ റൗണ്ടിൽ കൃത്യമായി കാണാനുള്ള സ്റ്റൈൽ */
         .company-logo-container {
             margin-bottom: 10px;
             display: flex;
@@ -34,20 +35,22 @@
         }
 
         .company-logo {
-            width: 85px; 
-            height: 85px;
+            width: 100px; 
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #d4af37;
+            border: 3px solid #d4af37; /* ഗോൾഡ് ബോർഡർ */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            background-color: #161616;
         }
 
-        h1 { color: #333; font-size: 22px; margin-bottom: 5px; margin-top: 10px; }
-        p { color: #666; margin-top: 0; font-size: 13px; }
+        h1 { color: #333; font-size: 24px; margin-bottom: 5px; margin-top: 10px; }
+        p { color: #666; margin-top: 0; font-size: 14px; }
 
         .form-container { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .input-group { display: flex; flex-direction: column; text-align: left; gap: 5px; }
-        .input-group label { font-weight: bold; color: #444; font-size: 13px; }
-        .input-group input, .input-group textarea { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; }
+        .input-group label { font-weight: bold; color: #444; font-size: 14px; }
+        .input-group input, .input-group textarea { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; outline: none; }
 
         .print-btn {
             background-color: #5d6bca;
@@ -93,7 +96,7 @@
         }
 
         .cover-overlay {
-            background: rgba(0, 0, 0, 0.35); 
+            background: rgba(0, 0, 0, 0.4); 
             width: 100%;
             height: 100%;
             padding: 10px 15px; 
@@ -110,8 +113,8 @@
         }
 
         .photo-box img {
-            width: 40px;  
-            height: 40px;
+            width: 45px;  
+            height: 45px;
             border-radius: 50%;
             object-fit: cover;
             border: 1.5px solid white;
@@ -148,6 +151,7 @@
             font-size: 18px; 
             font-weight: bold;
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
         }
 
         .footer-section {
@@ -170,9 +174,10 @@
 
         .brand-name {
             font-size: 8px; 
-            color: rgba(255, 255, 255, 0.4); 
+            color: rgba(255, 255, 255, 0.5); 
             margin-top: 4px;
             text-align: center;
+            letter-spacing: 0.5px;
         }
 
         @media print {
@@ -187,7 +192,7 @@
 
     <div class="main-container">
         <div class="company-logo-container">
-            <img class="company-logo" src="LOGO 2.jpg" alt="ATAVA Logo" onerror="this.src='LOGO 2.jpg.jpg';">
+            <img class="company-logo" id="mainLogo" src="LOGO 2.jpg" alt="ATAVA Logo">
         </div>
 
         <h1>📚 Book Cover Generator</h1>
@@ -234,6 +239,16 @@
     <script>
         let studentPhotoData = "https://via.placeholder.com/150";
         let customBgList = ["https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1000&auto=format&fit=crop"];
+
+        // ലോഗോ ഫയൽ നെയിമുകളിൽ എന്തെങ്കിലും തെറ്റുണ്ടെങ്കിൽ അത് ഓട്ടോമാറ്റിക്കായി തിരുത്താൻ
+        const logoImg = document.getElementById('mainLogo');
+        logoImg.onerror = function() {
+            if (this.src.includes("LOGO%202.jpg.jpg")) {
+                this.src = "logo 2.jpg";
+            } else if (this.src.includes("LOGO%202.jpg")) {
+                this.src = "LOGO 2.jpg.jpg";
+            }
+        };
 
         function updateCovers() {
             const name = document.getElementById('inputName').value || "";
