@@ -26,6 +26,7 @@
             margin-bottom: 25px;
         }
 
+        /* 🎯 സൈറ്റ് തുറക്കുമ്പോൾ മുകളിൽ കാണാൻ ഉള്ള കമ്പനി ലോഗോ */
         .company-logo-container {
             margin-bottom: 15px;
             display: flex;
@@ -130,7 +131,6 @@
         .student-info {
             text-align: right;
             color: white;
-            /* 🎯 പേരും വിവരങ്ങളും എല്ലാം നിർബന്ധമായും CAPITAL LETTERS ആക്കാൻ */
             text-transform: uppercase; 
         }
 
@@ -164,14 +164,12 @@
             font-weight: bold;
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
             letter-spacing: 1px;
-            /* 🎯 സബ്ജക്റ്റുകൾ CAPITAL LETTERS ആക്കാൻ */
             text-transform: uppercase; 
         }
 
         .footer-section {
             text-align: center;
             color: white;
-            /* 🎯 സ്കൂളിന്റെ പേര് CAPITAL LETTERS ആക്കാൻ */
             text-transform: uppercase; 
         }
 
@@ -208,23 +206,20 @@
 <body>
 
     <div class="main-container">
-        <!-- 🎯 കസ്റ്റമർ കാണുന്ന മുകളിലെ ലോഗോ (ഇനി ലിങ്ക് വഴി ഓട്ടോമാറ്റിക് ആയി വരും) -->
         <div class="company-logo-container">
-            <img class="company-logo" id="mainLogo" alt="ATAVA Logo">
+            <img class="company-logo" id="mainLogo" src="https://i.imgur.com/vHqQO6W.jpeg" alt="ATAVA Logo">
         </div>
 
         <h1>📚 Book Cover Generator</h1>
         <p>വിവരങ്ങൾ നൽകി പ്രൊഫഷണൽ കവർ പേജ് ഉണ്ടാക്കൂ!</p>
         
         <div class="form-container">
-            <!-- 👦 കുട്ടിയുടെ ഫോട്ടോ അപ്‌ലോഡ് ഓപ്ഷൻ -->
             <div class="input-group" style="background: #eef1ff; padding: 10px; border-radius: 8px; border: 1px dashed #5d6bca;">
                 <label style="color: #4a55a2;">👦 Upload Student Photo:</label>
                 <input type="file" id="inputPhoto" accept="image/*" onchange="loadStudentPhoto(event)">
-                <span class="hint-text" style="color: #666;">കുട്ടിയുടെ ഫോട്ടോ ഇവിടെ അപ്‌ലോഡ് ചെയ്യാം.</span>
+                <span class="hint-text" style="color: #666;">കുട്ടിയുടെ ഫോട്ടോ ഇവിടെ അപ്‌ലോഡ് ചെയ്യക്കാം.</span>
             </div>
 
-            <!-- 🖼️ ബാക്ക്ഗ്രൗണ്ട് അപ്‌ലോഡ് ഓപ്ഷൻ -->
             <div class="input-group">
                 <label>Custom Backgrounds (Select Multiple):</label>
                 <input type="file" id="inputBg" accept="image/*" multiple onchange="loadMultipleBackgrounds(event)">
@@ -261,26 +256,10 @@
     </div>
 
     <script>
-        // 🎯 ലോഗോയുടെ ഫയൽ നെയിം പ്രശ്നങ്ങൾ ഒഴിവാക്കാൻ നേരിട്ട് റിലേറ്റീവ് പാത്ത് നൽകി
-        const globalLogoData = "logo%202.jpg.jpg"; 
         let studentPhotoData = null;
         let customBgList = ["https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1000&auto=format&fit=crop"];
 
-        // പേജ് ലോഡാകുമ്പോൾ ലോഗോ കൃത്യമായി കാണിക്കാൻ
         window.addEventListener('DOMContentLoaded', () => {
-            const mainLogoImg = document.getElementById('mainLogo');
-            
-            // ലോക്കൽ ഫയൽ നെയിം മാച്ച് ചെയ്യാൻ പല ഫോർമാറ്റുകൾ ട്രൈ ചെയ്യും
-            mainLogoImg.src = "LOGO 2.jpg.jpg";
-            mainLogoImg.onerror = function() {
-                this.src = "logo 2.jpg.jpg";
-                this.onerror = function() {
-                    this.src = "LOGO 2.jpg";
-                    this.onerror = function() {
-                        this.src = "logo 2.jpg";
-                    };
-                };
-            };
             updateCovers();
         });
 
@@ -324,7 +303,6 @@
 
                 const currentBg = customBgList[index % customBgList.length];
 
-                // 🎯 ക്ലാസ്സും റോളും തിരികെ തിരിച്ചറിയാൻ പാകത്തിൽ 'CLASS:', 'ROLL NO:' എന്ന് ലേബലുകൾ വെച്ചു
                 let infoLine = "";
                 if (className && roll) {
                     infoLine = `CLASS: ${className} | ROLL NO: ${roll}`;
